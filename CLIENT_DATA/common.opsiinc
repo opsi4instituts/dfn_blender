@@ -1,0 +1,39 @@
+requiredWinstVersion >= "4.11.4.3"
+
+DefVar $UninstallProgram$
+DefVar $LogDir$
+DefVar $ProductId$
+DefVar $ProductName$
+DefVar $MinimumSpace$
+DefVar $InstallDir$
+DefVar $InstFile$
+DefVar $PathToExe$
+DefVar $ExitCode$
+DefVar $MSVersion$
+DefVar $RegPathUninstall$
+DefVar $RegId$
+DefVar $INST_architecture$
+DefVar $INST_SystemType$
+DefVar $CustomPostInstall$
+DefVar $CustomPostDeinstall$
+DefVar $DesktopIcon$
+DefVar $SearchPattern$
+DefStringList $ResultList$
+
+Set $INST_SystemType$   = GetSystemType
+Set $INST_architecture$ = GetProductProperty("install_architecture","system specific")
+Set $MSVersion$	    	= GetMsVersionInfo
+Set $LogDir$ = "%opsiLogDir%"
+
+; ---------------------------------------------------------------
+; - Please edit the following values                             -
+; ----------------------------------------------------------------
+Set $ProductId$		= "dfn_blender"
+Set $ProductName$       = "Blender"
+Set $MinimumSpace$	= "480 MB"
+Set $InstFile$		= "blender-2.75a-windows64.msi"
+Set $RegPathUninstall$	= "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+; ----------------------------------------------------------------
+
+include_append "section_sub_check_exitcode.opsiinc"
+include_append "section_sub_search_registry64_uninstall_keys.opsiinc"

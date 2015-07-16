@@ -1,0 +1,175 @@
+[Package]
+version: 1
+depends: 
+incremental: False
+
+[Product]
+type: localboot
+id: dfn_blender
+name: Blender
+description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren und Rendern von dreidimensionalen Objekten
+advice: 
+version: 2.75a
+priority: 0
+licenseRequired: False
+productClasses: 
+setupScript: setup64.opsiscript
+uninstallScript: uninstall64.opsiscript
+updateScript: 
+alwaysScript: 
+onceScript: 
+customScript: 
+userLoginScript: 
+
+[ProductProperty]
+type: unicode
+name: install_architecture
+multivalue: True
+editable: False
+description: Betriebssystem-Architektur 32/64 Bit
+values: ["32 only", "64 only", "both", "system specific"]
+default: ["system specific"]
+
+[ProductProperty]
+type: unicode
+name: desktopicon
+multivalue: False
+editable: False
+description: Icon on Desktop
+values: ["no", "yes"]
+default: ["no"]
+
+[ProductProperty]
+type: unicode
+name: custom-post-install
+multivalue: False
+editable: False
+description: Define filename for include script in custom directory after installation
+values: ["none", "post-install.opsiinc"]
+default: ["none"]
+
+[ProductProperty]
+type: unicode
+name: custom-post-deinstall
+multivalue: False
+editable: False
+description: Define filename for include script in custom directory after deinstallation
+values: ["none", "post-deinstall.opsiinc"]
+default: ["none"]
+
+[Changelog]
+blender (2.75a-1)
+	* neue Upstreamversion
+	* Änderung Installer (2.74: exe -> 2.75: msi)
+	* Umstellung auf generelle Suche nach Installationen via Registry
+	* ProductProperty 'startmenuentry' entfernt. Unnötiges Relikt von Paket ohne Installer.
+	* $ProductId$ in den OPSI-Skripten gleichgezogen wie in 'control'
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 16.07.2015
+
+blender (2.74-2)
+	* kosmetische Anpassungen
+	* Check geteste Windowsversion (ggf. Warning)
+	* ProductProperty install_architecture hinzugefügt
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 24.06.2015
+
+blender (2.74-1)
+	* auf neu Version geupdated
+	* von *.ins -> *.opsiscript
+	* Variablen in die common.opsiinc ausgelagert
+	* custom Ordner eingerichtet
+ -- Lukas Stapelbroek (archIT/KIT) <lukas.stapelbroek9@kit.edu>, 17.06.2015
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
