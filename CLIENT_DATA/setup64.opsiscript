@@ -13,6 +13,9 @@ if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
 	isFatalError
 	;Stop process and set installation status to failed
 else
+	comment "Show product picture"
+	ShowBitmap "%ScriptPath%\" + $ProductName$ + ".png" $ProductName$
+	
 	if FileExists("%ScriptPath%\delsub64.opsiscript")
 		comment "Start uninstall sub section"
 		Sub "%ScriptPath%\delsub64.opsiscript"
@@ -23,7 +26,7 @@ else
 			Logwarning "Only tested with windows 7! Please report to the maintainer successful installation on other windows versions."
 		endif
 
-		Message "Installing " + $ProductName$ + " 64 Bit..."
+		Message "Installing %installingProdName% (%installingProdVersion%) 64 Bit..."
 		comment "Start setup program"
 		Winbatch_install_msi
 		Sub_check_exitcode
