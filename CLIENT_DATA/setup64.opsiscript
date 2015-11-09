@@ -21,48 +21,39 @@ else
 		Sub "%ScriptPath%\delsub64.opsiscript"
 	endif
 	
-	if ($INST_SystemType$ = "64 Bit System") and (($INST_architecture$ = "system specific") or ($INST_architecture$ = "both") or ($INST_architecture$ = "64 only"))
-		if not ($MSVersion$ = "6.1")
-			Logwarning "Only tested with windows 7! Please report to the maintainer successful installation on other windows versions."
-		endif
+	Message "Installing %installingProdName% (%installingProdVersion%) 64 Bit..."
+	comment "Start setup program"
+	Winbatch_install_msi
+	Sub_check_exitcode
 
-		Message "Installing %installingProdName% (%installingProdVersion%) 64 Bit..."
-		comment "Start setup program"
-		Winbatch_install_msi
-		Sub_check_exitcode
+	comment "Test for installation success"
+	Set $SearchPattern$ = $ProductName$
+	; Parameter: $SearchPattern$ Suchbegriff in Registry
+	Sub_search_registry64_uninstall_keys
+	; Rückgabewert: $ResultList$ gefundene Einträge
 
-		comment "Test for installation success"
-		Set $SearchPattern$ = $ProductName$
-		; Parameter: $SearchPattern$ Suchbegriff in Registry
-		Sub_search_registry64_uninstall_keys
-		; Rückgabewert: $ResultList$ gefundene Einträge
-
-		if ( count ($ResultList$) = "0" )
-			logError "Fatal: After Installation " + $ProductName$ + " could not be found in " + $RegPathUninstall$
-			isFatalError
-		else
-			Set $RegId$ = takeSTring(0, $ResultList$)
-			comment "Get 'InstallLocation' from registry for path to exe"
-			Set $InstallDir$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] InstallLocation")
-			Set $PathToExe$ = $InstallDir$ + "\blender.exe"
-	
-			set $DesktopIcon$ = getProductProperty("desktopicon","no")
-			if $DesktopIcon$ = "yes"
-				comment "Create common desktop icon"
-				Linkfolder_install_desktopicon	
-			endif
-
-			comment "include custom post install file"
-			set $CustomPostInstall$ = getProductProperty("custom-post-install","none")
-			if not ($CustomPostInstall$ = "none")
-				if FileExists("%ScriptPath%\custom\" + $CustomPostInstall$)
-					include_insert "%ScriptPath%\custom\" + $CustomPostInstall$
-				endif
-			endif
-		endif
-	else
-		LogError "At the moment a 32 bit version is not included in this packet!"
+	if ( count ($ResultList$) = "0" )
+		logError "Fatal: After Installation " + $ProductName$ + " could not be found in " + $RegPathUninstall$
 		isFatalError
+	else
+		Set $RegId$ = takeSTring(0, $ResultList$)
+		comment "Get 'InstallLocation' from registry for path to exe"
+		Set $InstallDir$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] InstallLocation")
+		Set $PathToExe$ = $InstallDir$ + "\blender.exe"
+	
+		set $DesktopIcon$ = getProductProperty("desktopicon","no")
+		if $DesktopIcon$ = "yes"
+			comment "Create common desktop icon"
+			Linkfolder_install_desktopicon	
+		endif
+
+		comment "include custom post install file"
+		set $CustomPostInstall$ = getProductProperty("custom-post-install","none")
+		if not ($CustomPostInstall$ = "none")
+			if FileExists("%ScriptPath%\custom\" + $CustomPostInstall$)
+				include_insert "%ScriptPath%\custom\" + $CustomPostInstall$
+			endif
+		endif
 	endif
 endif
 
