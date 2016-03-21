@@ -4,11 +4,13 @@ DefVar $UninstallProgram$
 DefVar $LogDir$
 DefVar $ProductId$
 DefVar $ProductName$
+DefVar $ProductVersion$
 DefVar $MinimumSpace$
 DefVar $InstallDir$
 DefVar $InstFile$
 DefVar $PathToExe$
 DefVar $ExitCode$
+DefVar $ErrorMsg$
 DefVar $MSVersion$
 DefVar $RegPathUninstall$
 DefVar $RegId$
@@ -23,19 +25,21 @@ DefStringList $ResultList$
 Set $INST_SystemType$   = GetSystemType
 Set $INST_architecture$ = GetProductProperty("install_architecture","system specific")
 Set $MSVersion$	    	= GetMsVersionInfo
-Set $LogDir$ = "%opsiLogDir%"
+Set $LogDir$		= "%opsiLogDir%"
+
+Set $ProductVersion$ = takestring (0, splitString("%installingProdVersion%", "-"))
 
 ; ---------------------------------------------------------------
 ; - Please edit the following values                             -
 ; ----------------------------------------------------------------
-Set $ProductId$		= "blender"
+Set $ProductId$	= "blender"
 Set $ProductName$       = "Blender"
 Set $MinimumSpace$	= "480 MB"
-Set $InstFile$		= "blender-2.76b-windows64.msi"
+Set $InstFile$		= "blender-" + $ProductVersion$ + "-windows64.msi"
 Set $RegPathUninstall$	= "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 ; ----------------------------------------------------------------
 
-include_append "section_sub_check_exitcode.opsiinc"
+include_append "check_msi_exitcode.opsiinc"
 include_append "section_sub_search_registry64_uninstall_keys.opsiinc"
 
 if not ($INST_SystemType$ = "64 Bit System")

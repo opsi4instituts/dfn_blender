@@ -9,7 +9,7 @@ id: dfn_blender
 name: Blender
 description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren und Rendern von dreidimensionalen Objekten
 advice: 
-version: 2.76b
+version: 2.77
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -58,6 +58,12 @@ values: ["none", "post-deinstall.opsiinc"]
 default: ["none"]
 
 [Changelog]
+dfn_blender (2.77-1)
+	* neue Upstreamversion
+	* $ProductVersion$ für $InstFile$-Automatik hinzugefügt
+	* Umstellung auf "check_msi_exitcode"
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 21.03.2016
+
 dfn_blender (2.76b-1)
 	* neue Upstreamversion
 	* Check auf MSVersion & architecture -> common.opsiinc
@@ -90,6 +96,8 @@ blender (2.74-1)
 	* Variablen in die common.opsiinc ausgelagert
 	* custom Ordner eingerichtet
  -- Lukas Stapelbroek (archIT/KIT) <lukas.stapelbroek9@kit.edu>, 17.06.2015
+
+
 
 
 
