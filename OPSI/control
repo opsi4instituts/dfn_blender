@@ -9,7 +9,7 @@ id: dfn_blender
 name: Blender
 description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren und Rendern von dreidimensionalen Objekten
 advice: 
-version: 2.77
+version: 2.78
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -58,6 +58,15 @@ values: ["none", "post-deinstall.opsiinc"]
 default: ["none"]
 
 [Changelog]
+dfn_blender (2.78-1)
+	* neue Upstreamversion
+	* o4i-Logo
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 04.10.2016
+
+dfn_blender (2.77a-1)
+	* neue Upstreamversion
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 07.04.2016
+
 dfn_blender (2.77-1)
 	* neue Upstreamversion
 	* $ProductVersion$ für $InstFile$-Automatik hinzugefügt
@@ -96,6 +105,7 @@ blender (2.74-1)
 	* Variablen in die common.opsiinc ausgelagert
 	* custom Ordner eingerichtet
  -- Lukas Stapelbroek (archIT/KIT) <lukas.stapelbroek9@kit.edu>, 17.06.2015
+
 
 
 
