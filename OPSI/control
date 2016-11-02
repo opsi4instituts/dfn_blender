@@ -9,7 +9,7 @@ id: dfn_blender
 name: Blender
 description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren und Rendern von dreidimensionalen Objekten
 advice: 
-version: 2.78
+version: 2.78a
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -58,6 +58,10 @@ values: ["none", "post-deinstall.opsiinc"]
 default: ["none"]
 
 [Changelog]
+dfn_blender (2.78a-1)
+	* neue Upstreamversion
+ -- Detlef Krummel (Vertretung)  <krummel@gei.de>, 28.10.2016
+
 dfn_blender (2.78-1)
 	* neue Upstreamversion
 	* o4i-Logo
