@@ -41,6 +41,9 @@ else
 		Set $InstallDir$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] InstallLocation")
 		Set $PathToExe$ = $InstallDir$ + "\blender.exe"
 	
+		; MSI legt automatisch Desktopicon an, erstmal generell löschen
+		Linkfolder_uninstall_desktopicon
+
 		set $DesktopIcon$ = getProductProperty("desktopicon","no")
 		if $DesktopIcon$ = "yes"
 			comment "Create common desktop icon"
@@ -68,3 +71,8 @@ set_link
  	name: $ProductName$
  	target: $PathToExe$
 end_link
+
+[Linkfolder_uninstall_desktopicon]
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element $ProductId$

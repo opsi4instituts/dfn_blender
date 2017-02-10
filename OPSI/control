@@ -9,7 +9,7 @@ id: dfn_blender
 name: Blender
 description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren und Rendern von dreidimensionalen Objekten
 advice: 
-version: 2.78a
+version: 2.78b
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -58,14 +58,14 @@ values: ["none", "post-deinstall.opsiinc"]
 default: ["none"]
 
 [Changelog]
+dfn_blender (2.78b-1)
+	* neue Upstreamversion
+	* Desktopicon von MSI entfernen
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 10.02.2017
+
 dfn_blender (2.78a-1)
 	* neue Upstreamversion
  -- Detlef Krummel (Vertretung)  <krummel@gei.de>, 28.10.2016
-
-dfn_blender (2.78-1)
-	* neue Upstreamversion
-	* o4i-Logo
- -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 04.10.2016
 
 dfn_blender (2.77a-1)
 	* neue Upstreamversion
