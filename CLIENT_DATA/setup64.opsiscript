@@ -1,8 +1,3 @@
-; Copyright (c) uib gmbh (www.uib.de)
-; This sourcecode is owned by uib gmbh
-; and published under the Terms of the General Public License.
-; credits: http://www.opsi.org/credits/
-
 [Actions]
 
 ; common Values for (un)installation
@@ -13,9 +8,6 @@ if not(HasMinimumSpace ("%SystemDrive%", $MinimumSpace$))
 	isFatalError
 	;Stop process and set installation status to failed
 else
-	comment "Show product picture"
-	ShowBitmap "%ScriptPath%\o4i.png" $ProductName$
-	
 	if FileExists("%ScriptPath%\delsub64.opsiscript")
 		comment "Start uninstall sub section"
 		Sub "%ScriptPath%\delsub64.opsiscript"
@@ -37,17 +29,21 @@ else
 		isFatalError
 	else
 		Set $RegId$ = takeSTring(0, $ResultList$)
+		
+		Set $InstalledVersion$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] DisplayVersion")
+		if not (contains($InstalledVersion$, $ProductVersion$))
+			logError "Fatal: Installed product version is " + $InstalledVersion$ + " but is supposed to be " + $ProductVersion$
+			isFatalError
+		endif
+
 		comment "Get 'InstallLocation' from registry for path to exe"
 		Set $InstallDir$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] InstallLocation")
 		Set $PathToExe$ = $InstallDir$ + "\blender.exe"
-	
-		; MSI legt automatisch Desktopicon an, erstmal generell löschen
-		Linkfolder_uninstall_desktopicon
 
-		set $DesktopIcon$ = getProductProperty("desktopicon","no")
-		if $DesktopIcon$ = "yes"
-			comment "Create common desktop icon"
-			Linkfolder_install_desktopicon	
+		; MSI legt automatisch Desktopicon an, Logik umkehren: False = löschen
+		if $DesktopLink$ = "False"
+			comment "Delete common desktop link"
+			Linkfolder_delete_desktoplink	
 		endif
 
 		comment "include custom post install file"
@@ -61,18 +57,9 @@ else
 endif
 
 [Winbatch_install_msi]
-msiexec /qn /i "%ScriptPath%\$InstFile$" /l* "$LogDir$\$ProductId$.install_log.txt" ALLUSERS=1 REBOOT=ReallySuppress
+msiexec $SilentOption$ /i "%ScriptPath%\$InstFile$" /l* "$LogDir$\$ProductId$.install_log.txt" ALLUSERS=1 REBOOT=ReallySuppress
 
-[Linkfolder_install_desktopicon]
-set_basefolder common_desktopdirectory
-set_subfolder ""
-
-set_link
- 	name: $ProductName$
- 	target: $PathToExe$
-end_link
-
-[Linkfolder_uninstall_desktopicon]
+[Linkfolder_delete_desktoplink]
 set_basefolder common_desktopdirectory
 set_subfolder ""
 delete_element $ProductId$

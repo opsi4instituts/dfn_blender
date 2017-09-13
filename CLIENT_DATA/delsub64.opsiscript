@@ -1,9 +1,3 @@
-; Copyright (c) uib gmbh (www.uib.de)
-; This sourcecode is owned by uib gmbh
-; and published under the Terms of the General Public License.
-; credits: http://www.opsi.org/credits/
-
-
 Message "Searching installation of " + $ProductName$ + " 64 Bit..."
 Set $SearchPattern$ = $ProductName$
 ; Parameter: $SearchPattern$ Suchbegriff in Registry
@@ -28,12 +22,6 @@ Switch count ($ResultList$)
 		endif
 		sub_check_exitcode
 
-		set $DesktopIcon$ = getProductProperty("desktopicon","no")
-		if $DesktopIcon$ = "yes"
-			comment "Delete common desktop icon"
-			Linkfolder_uninstall_desktopicon	
-		endif
-
 		comment "include custom post deinstall file"
 		set $CustomPostDeinstall$ = getProductProperty("custom-post-deinstall","none")
 		if not ($CustomPostDeinstall$ = "none")
@@ -53,9 +41,5 @@ EndSwitch
 $UninstallProgram$ /S
 
 [Winbatch_uninstall_msi]
-msiexec /x $RegId$ /qn REBOOT=ReallySuppress
+msiexec $SilentOption$ /x $RegId$ REBOOT=ReallySuppress
 
-[Linkfolder_uninstall_desktopicon]
-set_basefolder common_desktopdirectory
-set_subfolder ""
-delete_element $ProductName$
