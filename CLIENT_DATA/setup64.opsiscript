@@ -30,8 +30,11 @@ else
 	else
 		Set $RegId$ = takeSTring(0, $ResultList$)
 		
+		; Versionsnummer $InstFile$ entspricht nicht der Versionsnummer intern (2.79 <> 2.79.0; 2.79a <> 2.79.1)
+		; daher wird alles nach zweiten Punkt abgeschnitten und dann geprüft ob $InstalledVersion$ in $ProductVersion$ enthalten ist
 		Set $InstalledVersion$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] DisplayVersion")
-		if not (contains($InstalledVersion$, $ProductVersion$))
+		Set $InstalledVersion$ = takeString(0, splitString($InstalledVersion$,".")) + "." + takeString(1, splitString($InstalledVersion$,"."))
+		if not (contains($ProductVersion$, $InstalledVersion$))
 			logError "Fatal: Installed product version is " + $InstalledVersion$ + " but is supposed to be " + $ProductVersion$
 			isFatalError
 		endif

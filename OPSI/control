@@ -9,7 +9,7 @@ id: dfn_blender
 name: Blender
 description: 3D-Werkzeug zum Modellieren, Texturieren, Animieren, Rendern u.v.m. von dreidimensionalen Objekten [3D creation suite for modeling, texturing, animating, rendering and more.]
 advice: 
-version: 2.79
+version: 2.79b
 priority: 0
 licenseRequired: False
 productClasses: 
@@ -55,6 +55,15 @@ values: ["/qb!", "/qn"]
 default: ["/qb!"]
 
 [Changelog]
+dfn_blender (2.79b-1)
+	* neue Upstreamversion (Corrective Release, https://wiki.blender.org/index.php/Dev:Ref/Release_Notes/2.79/b)
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 27.03.2018
+
+dfn_blender (2.79a-1)
+	* neue Upstreamversion (Corrective Release, https://wiki.blender.org/index.php/Dev:Ref/Release_Notes/2.79/a)
+	* Fix für Erfolgskontrolle Installation (Versionsnummer 2.79a vs 2.79.1)
+ -- Thomas Besser (archIT/KIT) <thomas.besser@kit.edu>, 01.03.2018
+
 dfn_blender (2.79-1)
 	* neue Upstreamversion
 	* alte uib Copyrights (Überbleibsel von opsi-template) entfernt
