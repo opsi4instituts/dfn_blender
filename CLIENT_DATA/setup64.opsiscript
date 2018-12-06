@@ -16,32 +16,31 @@ else
 	Message "Installing %installingProdName% (%installingProdVersion%) 64 Bit..."
 	comment "Start setup program"
 	Winbatch_install_msi
-	Sub_check_exitcode
+	Set $ExitCode$ = getLastExitCode
+	if stringToBool(isMsiExitcodeFatal($ExitCode$, "True", $ErrorString$))
+		isFatalError
+	endif
 
 	comment "Test for installation success"
-	Set $SearchPattern$ = $ProductName$
-	; Parameter: $SearchPattern$ Suchbegriff in Registry
-	Sub_search_registry64_uninstall_keys
-	; Rückgabewert: $ResultList$ gefundene Einträge
-
+	Set $ResultList$ = SearchRegistryUninstallKeys($ProductName$)
+	
 	if ( count ($ResultList$) = "0" )
-		logError "Fatal: After Installation " + $ProductName$ + " could not be found in " + $RegPathUninstall$
+		logError "Fatal: After Installation " + $ProductName$ + " could not be found in registry."
 		isFatalError
 	else
-		Set $RegId$ = takeSTring(0, $ResultList$)
-		
-		; Versionsnummer $InstFile$ entspricht nicht der Versionsnummer intern (2.79 <> 2.79.0; 2.79a <> 2.79.1)
-		; daher wird alles nach zweiten Punkt abgeschnitten und dann geprüft ob $InstalledVersion$ in $ProductVersion$ enthalten ist
-		Set $InstalledVersion$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] DisplayVersion")
-		Set $InstalledVersion$ = takeString(0, splitString($InstalledVersion$,".")) + "." + takeString(1, splitString($InstalledVersion$,"."))
-		if not (contains($ProductVersion$, $InstalledVersion$))
-			logError "Fatal: Installed product version is " + $InstalledVersion$ + " but is supposed to be " + $ProductVersion$
+		Set $RegId$ = takeString (0,splitString(takeString(0,$ResultList$), '|'))
+		Set $RegBitScope$ = takeString (1,splitString(takeString(0,$ResultList$), '|'))
+
+		comment "Check version"
+		Set $InstalledVersion$ = GetRegistryValue($RegId$, "DisplayVersion",$RegBitScope$)
+		if not ($InstalledVersion$ = $ProductVersion$)
+			LogError "Wrong version number found, something went wrong."
 			isFatalError
 		endif
 
 		comment "Get 'InstallLocation' from registry for path to exe"
-		Set $InstallDir$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] InstallLocation")
-		Set $PathToExe$ = $InstallDir$ + "\blender.exe"
+		Set $InstallDir$ = GetRegistryValue($RegId$, "InstallLocation", $RegBitScope$)
+		Set $PathToExe$ = $InstallDir$ + "blender.exe"
 
 		; MSI legt automatisch Desktopicon an, Logik umkehren: False = löschen
 		if $DesktopLink$ = "False"

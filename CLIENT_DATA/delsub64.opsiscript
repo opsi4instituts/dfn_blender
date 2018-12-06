@@ -1,26 +1,22 @@
 Message "Searching installation of " + $ProductName$ + " 64 Bit..."
-Set $SearchPattern$ = $ProductName$
-; Parameter: $SearchPattern$ Suchbegriff in Registry
-Sub_search_registry64_uninstall_keys
-; Rückgabewert: $ResultList$ gefundene Einträge
+Set $ResultList$ = SearchRegistryUninstallKeys($ProductName$)
 
 Switch count ($ResultList$)
 	Case "0"
-		comment "No installations of " + $SearchPattern$ + " found in $RegPathUninstall$. Nothing to do ;-)"
+		comment "No installations of " + $ProductName$ + " found in registry. Nothing to do ;-)"
 	EndCase
 	Case "1"
 		Message "Uninstalling " + $ProductName$ + " 64 Bit..."
-		Set $RegId$ = takeSTring(0, $ResultList$)
-		; Old NSIS installer (Version < 2.75) used "Blender" as RegId
-		if $RegId$ = $ProductName$
-			comment "Found old installation (Version < 2.75) with NSIS Installer"
-			Set $UninstallProgram$ = GetRegistryStringValue64("[" + $RegPathUninstall$ + "\" + $RegId$ + "] UninstallString")
-			Winbatch_uninstall
-		else
-			comment "Found blender installed with MSI (Version > 2.75)"
-			Winbatch_uninstall_msi
+		Set $RegId$ = takeString (0,splitString(takeString(0,$ResultList$), '|'))
+		Set $RegBitScope$ = takeString (1,splitString(takeString(0,$ResultList$), '|'))	
+		; für MSI wird nur der eigentliche Regkey (ohne Pfad) benötigt
+		Set $RegId$ = takeString (-1,splitString($RegId$,"\"))
+		
+		Winbatch_uninstall_msi
+		Set $ExitCode$ = getLastExitCode
+		if stringToBool(isMsiExitcodeFatal($ExitCode$, "True", $ErrorString$))
+			isFatalError
 		endif
-		sub_check_exitcode
 
 		comment "include custom post deinstall file"
 		set $CustomPostDeinstall$ = getProductProperty("custom-post-deinstall","none")
@@ -35,10 +31,6 @@ Switch count ($ResultList$)
 		isFatalError
 	EndCase
 EndSwitch
-
-[Winbatch_uninstall]
-; === Nullsoft Scriptable Install System ================================================================
-$UninstallProgram$ /S
 
 [Winbatch_uninstall_msi]
 msiexec $SilentOption$ /x $RegId$ REBOOT=ReallySuppress
