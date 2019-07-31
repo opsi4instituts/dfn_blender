@@ -3,5 +3,6 @@
 *.msi
 *.zsync
 *.md5
+*.log
 custom
 orig
